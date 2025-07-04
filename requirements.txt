@@ -1,0 +1,7 @@
+flask
+langchain
+langchain_community
+langchain-ollama
+scikit-learn
+ollama
+docx2txt

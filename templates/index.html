@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Research Portfolio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="portfolio-header">
+        <div class="header-content">
+            <h1>Dr. Chris Mueller</h1>
+            <p class="subtitle">AI Researcher | Computer Vision Specialist</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <div class="container">
+            <h2>About My Research</h2>
+            <p>Welcome to my interactive portfolio. I achieved a Master degree in Human Computer Interaction and since a few years I am burining for AI and LLM interactions. Therefore I created this site to inform and updtae about recent projects and ideas. 
+               Ask my LLM currently working with RAG about any of my works below, or explore my CV and project highlights.</p>
+        </div>
+    </section>
+
+    <!-- AI Chat Section -->
+    <section class="ai-section">
+        <div class="container">
+            <div class="ai-header">
+                <h2>Research Assistant</h2>
+                <button id="info-btn" class="icon-btn" aria-label="How this works">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <div id="info-popup" class="popup">
+                    <p>This LLM runs on a rented CPU via Ollama (Llama3.1 is the model in usage) and is able to retrieve after a startup time informations from my works. 
+                       It uses Retrieval-Augmented Generation (RAG) to provide accurate responses.</p>
+                    <button class="close-btn">&times;</button>
+                </div>
+            </div>
+            
+            <div id="chat-history" class="chat-history"></div>
+            
+            <div class="quick-questions">
+                <h3>Suggested Questions:</h3>
+                <div class="question-grid">
+                    <button class="question-chip" data-question="What novel methods did you develop in your CVPR paper?">CVPR 2023 Highlights</button>
+                    <button class="question-chip" data-question="Explain your approach to medical image segmentation">Medical Imaging Technique</button>
+                    <button class="question-chip" data-question="What datasets did you use in your PhD research?">Research Datasets</button>
+                    <button class="question-chip" data-question="What are the clinical applications of your work?">Clinical Applications</button>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Ask about my research...">
+                <button id="send-button" class="primary-btn">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Sections -->
+    <section class="portfolio-section">
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="cv">Curriculum Vitae</button>
+                <button class="tab-btn" data-tab="publications">Publications</button>
+                <button class="tab-btn" data-tab="projects">Projects</button>
+                <button class="tab-btn" data-tab="contact">Contact</button>
+            </div>
+            
+            <div class="tab-content active" id="cv">
+                <h3>Professional Experience</h3>
+                <div class="cv-item">
+                    <h4>Senior AI Researcher</h4>
+                    <p class="meta">Max Planck Institute | 2020-Present</p>
+                    <ul>
+                        <li>Developed novel architectures for 3D medical image analysis</li>
+                        <li>Led team of 5 researchers in computer vision projects</li>
+                    </ul>
+                </div>
+                <!-- More CV items -->
+            </div>
+            
+            <div class="tab-content" id="publications">
+                <h3>Selected Publications</h3>
+                <div class="publication-grid">
+                    <!-- Publication items would go here -->
+                </div>
+            </div>
+            
+            <!-- Other tab contents -->
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
