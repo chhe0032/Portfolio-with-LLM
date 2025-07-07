@@ -41,7 +41,6 @@ class RAGSystem:
             raise ValueError("R2_API_TOKEN is not set in environment variables")
         
         print(f"🔑 Using R2 token starting with: {self.R2_API_TOKEN[:6]}...")
-        self._initialize()
         
         
         try:
