@@ -1,7 +1,8 @@
-flask
-langchain
+flask>=2.0.0
 langchain_community
 langchain-ollama
 scikit-learn
 ollama
 docx2txt
+python-dotenv
+gunicorn
