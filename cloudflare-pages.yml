@@ -1,7 +1,7 @@
 name: Cloudflare Pages Deployment
 on:
   push:
-    branches: [ main ]
+    branches: [ frontend ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
