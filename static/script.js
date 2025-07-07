@@ -6,7 +6,7 @@ const questionChips = document.querySelectorAll(".question-chip");
 const tabButtons = document.querySelectorAll(".tab-btn");
 const infoBtn = document.getElementById("info-btn");
 const infoPopup = document.getElementById("info-popup");
-const BACKEND_URL = "https://https://portfolio_rag.onrender.com.com"; 
+const BACKEND_URL = "https://portfolio-rag-82of.onrender.com"; 
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
@@ -57,7 +57,7 @@ async function sendQuestion() {
     const loadingElement = showLoading();
     
     try {
-        const response = await fetch("https://backend-url.com/process_input", {
+        const response = await fetch("portfolio-rag-82of.onrender.com/process_input", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
