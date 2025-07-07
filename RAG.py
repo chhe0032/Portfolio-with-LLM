@@ -1,20 +1,77 @@
-from langchain_community.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
-from langchain_community.document_loaders import Docx2txtLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import SKLearnVectorStore
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+import requests
+import io
 import os
 
-
 class RAGSystem:
-    def __init__(self, documents_path='C:/Users/chris/Documents/Papers'):
+    def __init__(self):
         os.environ['USER_AGENT'] = 'MyRAGApplication/1.0'
-        self.documents_path = documents_path
         self.retriever = None
         self.rag_chain = None
         self._initialize()
+    
+    def _load_documents(self):
+        """Load documents from Cloudflare R2 with error handling"""
+        documents = []
+        
+        # File type configuration - REPLACE WITH YOUR ACTUAL FILES
+        file_types = {
+            'pdf': {
+                'loader': PyPDFLoader,
+                'files': ["SEAdv_Report.pdf", "User-Centered Design Approaches of a Color-Based Communication System for Emotional Support of Employees as a Ubiquitous Computing Solution.pdf"]
+            },
+            'docx': {
+                'loader': Docx2txtLoader,
+                'files': ["Fake Projectreport.docx"]
+            },
+            'txt': {
+                'loader': TextLoader,
+                'files': ["Plans.txt"]
+            }
+        }
+
+        # Load each file type
+        for file_type, config in file_types.items():
+            loader_cls = config['loader']
+            for filename in config['files']:
+                try:
+                    # Download from R2
+                    file_stream = self._download_from_r2(filename)
+                    
+                    # Initialize appropriate loader
+                    if file_type == 'pdf':
+                        loader = PyPDFLoader(file_stream)
+                    elif file_type == 'docx':
+                        loader = Docx2txtLoader(file_stream)
+                    else:  # txt
+                        loader = TextLoader(file_stream)
+                    
+                    documents.extend(loader.load())
+                    print(f"Successfully loaded {filename}")
+                    
+                except ImportError as e:
+                    if file_type == 'docx':
+                        print("docx2txt not installed - skipping Word documents")
+                    else:
+                        print(f"Import error for {filename}: {str(e)}")
+                except Exception as e:
+                    print(f"Error loading {filename}: {str(e)}")
+        
+        print(f"\nTotal loaded documents: {len(documents)}")
+        return documents
+
+    def _download_from_r2(self, file_key):
+        """Download file from Cloudflare R2"""
+        url = f"https://a647af0b197a174668773e5c87e93c8b.eu.r2.cloudflarestorage.com/{file_key}"
+        headers = {"Authorization": f"Bearer {os.getenv('R2_API_TOKEN')}"}
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise HTTP errors
+        return io.BytesIO(response.content)
         
     def _initialize(self):
         """Initialize all components"""
@@ -31,57 +88,12 @@ class RAGSystem:
         # Create RAG chain
         self.rag_chain = self._create_rag_chain()
     
-    def _load_documents(self):
-        """Load documents with error handling"""
-        documents = []
-        
-        # PDFs
-        try:
-            pdf_loader = DirectoryLoader(
-                path=self.documents_path,
-                glob="**/*.pdf",
-                loader_cls=PyPDFLoader,
-                show_progress=True
-            )
-            documents.extend(pdf_loader.load())
-        except Exception as e:
-            print(f"Error loading PDFs: {str(e)}")
-        
-        # Word docs (if docx2txt available)
-        try:
-            docx_loader = DirectoryLoader(
-                path=self.documents_path,
-                glob="**/*.docx",
-                loader_cls=Docx2txtLoader,
-                show_progress=True
-            )
-            documents.extend(docx_loader.load())
-        except ImportError:
-            print("docx2txt not installed - skipping Word documents")
-        except Exception as e:
-            print(f"Error loading Word documents: {str(e)}")
-        
-        # Text files
-        try:
-            txt_loader = DirectoryLoader(
-                path=self.documents_path,
-                glob="**/*.txt",
-                loader_cls=TextLoader,
-                loader_kwargs={'autodetect_encoding': True},
-                show_progress=True
-            )
-            documents.extend(txt_loader.load())
-        except Exception as e:
-            print(f"Error loading text files: {str(e)}")
-            
-        print(f"\nLoaded {len(documents)} documents")
-        return documents
-    
     def _split_documents(self, documents):
         """Split documents into chunks"""
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             chunk_size=350,
-            chunk_overlap=150
+            chunk_overlap=150,
+            separators=["\n\n", "\n", ". ", " ", ""]
         )
         return text_splitter.split_documents(documents)
     
@@ -116,9 +128,13 @@ class RAGSystem:
     
     def query(self, question):
         """Query the RAG system"""
-        documents = self.retriever.invoke(question)
-        doc_texts = "\n".join([doc.page_content for doc in documents])
-        return self.rag_chain.invoke({
-            "question": question,
-            "documents": doc_texts
-        })
+        try:
+            documents = self.retriever.invoke(question)
+            doc_texts = "\n\n".join([doc.page_content for doc in documents])
+            return self.rag_chain.invoke({
+                "question": question,
+                "documents": doc_texts
+            })
+        except Exception as e:
+            print(f"Error during query: {str(e)}")
+            return "I encountered an error processing your request. Please try again."
