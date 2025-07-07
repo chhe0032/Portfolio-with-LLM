@@ -10,7 +10,7 @@ const BACKEND_URL = "https://portfolio-amw4.onrender.com";
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
-    addMessage("AI", "Hello! I'm an AI assistant trained on Dr. Mueller's research. Ask me anything about his publications, methods, or datasets.");
+    addMessage("AI", "Hello! I'm an AI assistant able access and explain Christoph's research. Ask me anything about his papers, methods, or whta ever you like to know.");
 });
 
 // Improved message function with typing indicator
@@ -57,7 +57,7 @@ async function sendQuestion() {
     const loadingElement = showLoading();
     
     try {
-        const response = await fetch("portfolio-rag-82of.onrender.com/process_input", {
+        const response = await fetch("portfolio-amw4.onrender.com/process_input", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
