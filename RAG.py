@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import SKLearnVectorStore
 from langchain_ollama import OllamaEmbeddings, ChatOllama
@@ -7,60 +7,103 @@ from langchain_core.output_parsers import StrOutputParser
 import requests
 import io
 import os
+import tempfile
+from urllib.parse import quote
+from dotenv import load_dotenv
+
+# Configuration - UPDATE THESE!
+BUCKET_NAME = "files"  # Just the name, no .r2.dev
+ACCOUNT_ID = "a647af0b197a174668773e5c87e93c8b"  
+                   # If files are in subfolder (or "" if in root)
 
 class RAGSystem:
     def __init__(self):
+        load_dotenv()
         os.environ['USER_AGENT'] = 'MyRAGApplication/1.0'
         self.retriever = None
         self.rag_chain = None
+
+        self.R2_CUSTOM_DOMAIN = "christophhein.me"  # Your connected domain
+        self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")  # Must be set!
         self._initialize()
     
-    def _load_documents(self):
-        """Load documents from Cloudflare R2 with error handling"""
-        documents = []
-        failed_files = []
-        
-        # File type configuration - REPLACE WITH YOUR ACTUAL FILES
-        file_types = {
-            'pdf': {
-                'loader': PyPDFLoader,
-                'files': ["SEAdv_Report.pdf"]
-            },
-            'docx': {
-                'loader': Docx2txtLoader,
-                'files': ["Fake.docx"]
-            },
-            'txt': {
-                'loader': TextLoader,
-                'files': ["Plans.txt"]
-            }
-        }
-
-        for file_type, config in file_types.items():
-            for filename in config['files']:
-                try:
-                    file_stream = self._download_from_r2(filename)
-                    loader = config['loader'](file_stream)
-                    documents.extend(loader.load())
-                    print(f"✓ Loaded {filename}")
-                except Exception as e:
-                    print(f"✗ Failed {filename}: {str(e)}")
-                    failed_files.append(filename)
-        
-        if not documents:
-            print("\nCRITICAL: No documents loaded")
-            print("Failed files:", failed_files)
-            raise ValueError("All document loads failed. Check R2 configuration.")
-        
-        return documents
 
     def _download_from_r2(self, file_key):
-        """Download file from Cloudflare R2"""
-        url = f"https://a647af0b197a174668773e5c87e93c8b.eu.r2.cloudflarestorage.com/{file_key}"
-        headers = {"Authorization": f"Bearer {os.getenv('R2_API_TOKEN')}"}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raise HTTP errors
-        return io.BytesIO(response.content)
+        """Download file via your custom domain"""
+        url = f"https://{self.R2_CUSTOM_DOMAIN}/{quote(file_key)}"
+        headers = {
+            "Authorization": f"Bearer {self.R2_API_TOKEN}",
+            "Content-Type": "application/octet-stream"
+        }
+        
+        print(f"\nAttempting download from: {url}")
+        if not self.R2_API_TOKEN:
+            raise ValueError("R2_API_TOKEN is not set in environment variables")
+        
+        print(f"🔑 Using R2 token starting with: {self.R2_API_TOKEN[:6]}...")
+        self._initialize()
+        
+        
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            print(f"HTTP Status: {response.status_code}")
+
+                # Create temporary file
+            suffix = os.path.splitext(file_key)[1]
+            with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp_file:
+                tmp_file.write(response.content)
+                return tmp_file.name
+            
+            if response.status_code == 404:
+                raise ValueError(
+                    f"File not found at: {url}\n"
+                    "Verify:\n"
+                    "1. File exists in R2 bucket\n"
+                    "2. Custom domain is properly connected\n"
+                    "3. No typos in filename"
+                )
+            
+            response.raise_for_status()
+            return io.BytesIO(response.content)
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Download failed. Details:")
+            if hasattr(e, 'response'):
+                print(f"Response: {e.response.text}")
+            raise
+
+    def _load_documents(self):
+        """Load documents with proper file handling"""
+        documents = []
+        file_config = [
+            ("SEAdv_Report.pdf", PyPDFLoader),
+            ("Fake.docx", Docx2txtLoader)
+        ]
+        
+        for filename, loader_cls in file_config:
+            try:
+                print(f"\n📂 Processing {filename}...")
+                file_path = self._download_from_r2(filename)
+                
+                # Use the file path instead of BytesIO
+                loader = loader_cls(file_path)
+                documents.extend(loader.load())
+                print(f"✅ Successfully loaded {filename}")
+                
+                # Clean up temporary file
+                os.unlink(file_path)
+            except Exception as e:
+                print(f"❌ Failed to load {filename}: {str(e)}")
+                if 'file_path' in locals():
+                    try:
+                        os.unlink(file_path)
+                    except:
+                        pass
+                raise
+        
+        if not documents:
+            raise ValueError("No documents loaded - check configuration")
+        return documents
         
     def _initialize(self):
         """Initialize all components"""
