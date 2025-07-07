@@ -18,16 +18,17 @@ class RAGSystem:
     def _load_documents(self):
         """Load documents from Cloudflare R2 with error handling"""
         documents = []
+        failed_files = []
         
         # File type configuration - REPLACE WITH YOUR ACTUAL FILES
         file_types = {
             'pdf': {
                 'loader': PyPDFLoader,
-                'files': ["SEAdv_Report.pdf", "User-Centered Design Approaches of a Color-Based Communication System for Emotional Support of Employees as a Ubiquitous Computing Solution.pdf"]
+                'files': ["SEAdv_Report.pdf"]
             },
             'docx': {
                 'loader': Docx2txtLoader,
-                'files': ["Fake Projectreport.docx"]
+                'files': ["Fake.docx"]
             },
             'txt': {
                 'loader': TextLoader,
@@ -35,34 +36,22 @@ class RAGSystem:
             }
         }
 
-        # Load each file type
         for file_type, config in file_types.items():
-            loader_cls = config['loader']
             for filename in config['files']:
                 try:
-                    # Download from R2
                     file_stream = self._download_from_r2(filename)
-                    
-                    # Initialize appropriate loader
-                    if file_type == 'pdf':
-                        loader = PyPDFLoader(file_stream)
-                    elif file_type == 'docx':
-                        loader = Docx2txtLoader(file_stream)
-                    else:  # txt
-                        loader = TextLoader(file_stream)
-                    
+                    loader = config['loader'](file_stream)
                     documents.extend(loader.load())
-                    print(f"Successfully loaded {filename}")
-                    
-                except ImportError as e:
-                    if file_type == 'docx':
-                        print("docx2txt not installed - skipping Word documents")
-                    else:
-                        print(f"Import error for {filename}: {str(e)}")
+                    print(f"✓ Loaded {filename}")
                 except Exception as e:
-                    print(f"Error loading {filename}: {str(e)}")
+                    print(f"✗ Failed {filename}: {str(e)}")
+                    failed_files.append(filename)
         
-        print(f"\nTotal loaded documents: {len(documents)}")
+        if not documents:
+            print("\nCRITICAL: No documents loaded")
+            print("Failed files:", failed_files)
+            raise ValueError("All document loads failed. Check R2 configuration.")
+        
         return documents
 
     def _download_from_r2(self, file_key):

@@ -6,7 +6,7 @@ const questionChips = document.querySelectorAll(".question-chip");
 const tabButtons = document.querySelectorAll(".tab-btn");
 const infoBtn = document.getElementById("info-btn");
 const infoPopup = document.getElementById("info-popup");
-const BACKEND_URL = "https://portfolio-rag-82of.onrender.com"; 
+const BACKEND_URL = "https://portfolio-amw4.onrender.com"; 
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
