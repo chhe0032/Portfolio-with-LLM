@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from RAG import RAGSystem  # Import your existing RAG code
+from flask_cors import CORS
 import os
 
-app = Flask(__name__, static_folder='../static')
+app = Flask(__name__)
+CORS(app)
 
 # Serve static files directly
 @app.route('/static/<path:filename>')
@@ -26,7 +28,7 @@ def wake_up():
     
     # Process request
     question = request.json.get('question')
-    answer = rag_app.query(question)
+    answer = app.query(question)
     
     return jsonify({"response": answer})
 
