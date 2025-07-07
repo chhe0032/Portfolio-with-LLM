@@ -24,7 +24,7 @@ class RAGSystem:
 
         self.R2_CUSTOM_DOMAIN = "christophhein.me"
         self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
-        self._initialize()
+        os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
 
     def _download_from_r2(self, file_key):
         url = f"https://{self.R2_CUSTOM_DOMAIN}/{quote(file_key)}"
