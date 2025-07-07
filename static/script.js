@@ -57,7 +57,7 @@ async function sendQuestion() {
     const loadingElement = showLoading();
     
     try {
-        const response = await fetch("portfolio-rag-82of.onrender.com/process_input", {
+        const response = await fetch("portfolio-amw4.onrender.com/process_input", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
