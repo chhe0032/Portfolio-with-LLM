@@ -1,11 +1,22 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from RAG import RAGSystem  # Import your existing RAG code
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../static')
+
+# Serve static files directly
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('../static', filename)
 
 # Initialize RAG system
 rag = RAGSystem()
+
+# Your existing routes
+@app.route('/')
+def home():
+    return send_from_directory('../static', 'templates/index.html')
+
 
 @app.route('/wakeup', methods=['POST'])
 def wake_up():
