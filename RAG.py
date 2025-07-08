@@ -13,19 +13,22 @@ from dotenv import load_dotenv
 
 # Configuration - UPDATE THESE!
 BUCKET_NAME = "files"  # Just the name, no .r2.dev
-ACCOUNT_ID = "a647af0b197a174668773e5c87e93c8b"  
+ACCOUNT_ID = "a647af0b197a174668773e5c87e93c8b"
                    # If files are in subfolder (or "" if in root)
+
 
 class RAGSystem:
     def __init__(self):
         load_dotenv()
+        
         os.environ['USER_AGENT'] = 'MyRAGApplication/1.0'
         self.retriever = None
         self.rag_chain = None
 
         self.R2_CUSTOM_DOMAIN = "christophhein.me"  # Your connected domain
-        self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")  # Must be set!
+        #self.R2_API_TOKEN = ""  # Must be set!
         
+       
     
 
     def _download_from_r2(self, file_key):
@@ -41,7 +44,7 @@ class RAGSystem:
             raise ValueError("R2_API_TOKEN is not set in environment variables")
         
         print(f"🔑 Using R2 token starting with: {self.R2_API_TOKEN[:6]}...")
-        self._initialize()
+       
         
         
         try:
@@ -192,7 +195,7 @@ class RAGSystem:
             print(f"Error: {str(e)}")
         return False
             
-#      if __name__ == "__main__":
+#    if __name__ == "__main__":
         files_to_test = ["SEAdv_Report.pdf", "Fake.docx"]
         for file in files_to_test:
             if not test_download(file):
