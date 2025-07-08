@@ -10,7 +10,7 @@ const BACKEND_URL = "https://portfolio-amw4.onrender.com";
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
-    addMessage("AI", "Hello! I'm an AI assistant trained on Dr. Mueller's research. Ask me anything about his publications, methods, or datasets.");
+    addMessage("AI", "Hello! I'm an AI assistant developed by Mistral I am able to access Christoph's research. Ask me anything about his papers, methods, or ciriculum vitae.");
 });
 
 // Improved message function with typing indicator
