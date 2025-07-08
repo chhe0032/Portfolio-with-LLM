@@ -21,10 +21,16 @@ class RAGSystem:
         load_dotenv()
         self.retriever = None
         self.rag_chain = None
-
         self.R2_CUSTOM_DOMAIN = "christophhein.me"
         self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
         os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
+
+    # Initialize immediately with error handling
+    try:
+        self._initialize()
+    except Exception as e:
+        print(f"Initialization failed: {str(e)}")
+        raise
 
     def _download_from_r2(self, file_key):
         url = f"https://{self.R2_CUSTOM_DOMAIN}/{quote(file_key)}"
