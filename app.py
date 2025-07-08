@@ -4,7 +4,11 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://christophhein.me"]
+    }
+})
 
 # Serve static files directly
 @app.route('/static/<path:filename>')
@@ -17,7 +21,7 @@ rag = RAGSystem()
 # Use only one home route
 @app.route('/')
 def home():
-    return render_template('index.html')  # Assuming you want to serve from templates
+    return render_template('index.html')  # Assuming serve from templates
 
 @app.route('/wakeup', methods=['POST'])
 def wake_up():
@@ -38,14 +42,20 @@ def check_auth():
 
 @app.route('/process_input', methods=['POST'])
 def process_input():
-    data = request.get_json()
-    question = data['question']
-
     try:
-        answer = rag.query(question)
+        data = request.get_json()
+        if not data or 'question' not in data:
+            return jsonify({'error': 'Invalid request'}), 400
+            
+        answer = rag.query(data['question'])
         return jsonify({'response': answer})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+        
+@app.route('/health')
+def health_check():
+    return jsonify({'status': 'healthy'}), 200
+    
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
