@@ -6,7 +6,7 @@ const questionChips = document.querySelectorAll(".question-chip");
 const tabButtons = document.querySelectorAll(".tab-btn");
 const infoBtn = document.getElementById("info-btn");
 const infoPopup = document.getElementById("info-popup");
-const BACKEND_URL = "https://portfolio-amw4.onrender.com"; 
+const BACKEND_URL = ""; 
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
@@ -62,7 +62,8 @@ async function sendQuestion() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({ question }),
+            mode: 'cors'
         });
 
         if (!response.ok) {

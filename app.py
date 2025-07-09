@@ -13,6 +13,7 @@ def static_files(filename):
 
 # Initialize RAG system
 rag = RAGSystem()
+rag._initialize()
 
 # Use only one home route
 @app.route('/')
@@ -25,7 +26,7 @@ def wake_up():
         return jsonify({"error": "Unauthorized"}), 403
 
     question = request.json.get('question')
-    answer = rag.query(question)  # Fixed from app.query to rag.query
+    answer = rag.query(question)  
 
     return jsonify({"response": answer})
 
@@ -48,4 +49,5 @@ def process_input():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)

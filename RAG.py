@@ -26,7 +26,6 @@ class RAGSystem:
         self.rag_chain = None
 
         self.R2_CUSTOM_DOMAIN = "christophhein.me"  # Your connected domain
-        #self.R2_API_TOKEN = ""  # Must be set!
         
        
     
