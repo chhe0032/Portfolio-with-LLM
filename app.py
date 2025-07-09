@@ -17,6 +17,7 @@ def static_files(filename):
 
 # Initialize RAG system
 rag = RAGSystem()
+rag._initialize()
 
 # Use only one home route
 @app.route('/')
