@@ -54,8 +54,13 @@ class RAGSystem:
     def _load_documents(self):
         documents = []
         file_config = [
+            ("Masterthesis.pdf", PyPDFLoader),
+            ("Fake.docx", Docx2txtLoader),
+            ("Anthropocentrism.pdf", PyPDFLoader),
             ("SEAdv_Report.pdf", PyPDFLoader),
-            ("Fake.docx", Docx2txtLoader)
+            ("Airbalanced_bite.pdf", PyPDFLoader),
+            ("Transport_Interviews.pdf", PyPDFLoader),
+            ("UCD_Ubicomp.pdf", PyPDFLoader)
         ]
 
         for filename, loader_cls in file_config:
