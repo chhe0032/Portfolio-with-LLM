@@ -27,8 +27,9 @@ class RAGSystem:
         self.retriever = None
         self.rag_chain = None
 
-        self.R2_CUSTOM_DOMAIN = "christophhein.me"  # Your connected domain
-        self.R2_API_TOKEN = "LTTh-bL8Prva18NnCipVQp68MpBnh3PjCu3dhE5T"
+        self.R2_CUSTOM_DOMAIN = "christophhein.me" # Your custom domain for R2
+        self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
+        os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
        
     
 
@@ -196,8 +197,7 @@ class RAGSystem:
         
         llm = ChatMistralAI(
             model="mistral-medium",
-            temperature=0.1,
-            api_key="mVt8sAd7gj5HgfwjIYaNOEhdjdrFBH6W"
+            temperature=0.1
         )
 
         #llm = ChatOllama(
