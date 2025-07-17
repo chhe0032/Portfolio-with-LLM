@@ -4,6 +4,8 @@ from langchain_community.vectorstores import SKLearnVectorStore
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_mistralai import ChatMistralAI
+from langchain_huggingface import HuggingFaceEmbeddings
 import requests
 import io
 import os
@@ -26,7 +28,7 @@ class RAGSystem:
         self.rag_chain = None
 
         self.R2_CUSTOM_DOMAIN = "christophhein.me"  # Your connected domain
-        
+        self.R2_API_TOKEN = "LTTh-bL8Prva18NnCipVQp68MpBnh3PjCu3dhE5T"
        
     
 
@@ -78,8 +80,13 @@ class RAGSystem:
         """Load documents with proper file handling"""
         documents = []
         file_config = [
-            ("SEAdv_Report.pdf", PyPDFLoader),
-            ("Fake.docx", Docx2txtLoader)
+            ("Masterthesis.pdf", PyPDFLoader),
+            #("Fake.pdf", pyPDFLoader),
+            #("Anthropocentrism.pdf", PyPDFLoader),
+            #("SEAdv_Report.pdf", PyPDFLoader),
+            #("Airbalanced_bite.pdf", PyPDFLoader),
+            #("Transport_Interviews.pdf", PyPDFLoader),
+            #("UCD_Ubicomp.pdf", PyPDFLoader)
         ]
         
         for filename, loader_cls in file_config:
@@ -131,12 +138,17 @@ class RAGSystem:
         )
         return text_splitter.split_documents(documents)
     
+    #def _create_retriever(self, documents):
+    #    """Create vector store and retriever"""
+    #    vectorstore = SKLearnVectorStore.from_documents(
+    #        documents=documents,
+    #        embedding=OllamaEmbeddings(model="llama3.1:8b"),
+    #    )
+    #   return vectorstore.as_retriever(k=20)
+    
     def _create_retriever(self, documents):
-        """Create vector store and retriever"""
-        vectorstore = SKLearnVectorStore.from_documents(
-            documents=documents,
-            embedding=OllamaEmbeddings(model="llama3.1:8b"),
-        )
+        embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        vectorstore = SKLearnVectorStore.from_documents(documents=documents, embedding=embedding)
         return vectorstore.as_retriever(k=4)
     
     def _create_rag_chain(self):
@@ -146,6 +158,35 @@ class RAGSystem:
             Use the following documents to answer the question.
             If you don't know the answer, just say that you don't know.
             Use a few sentences maximum and keep the answer concise but don't leave out important information:
+
+            Abstract from the document:
+            This study investigates the integration of LLMs into Audience Participation
+                            Games to mediate collaborative storytelling on Twitch, addressing the lack of
+                            frameworks for equitable multi-user prompting. A mixed-methods approach
+                            is used to evaluate the LLM as a game agent and record the user experience.
+                            This approach combines qualitative interviews, game expereince questionnaire
+                            surveys, and exact match analysis. This process is supposed to provide in
+                            sights that contribute to a better understanding of the user experience when
+                            LLMs/GPTs are integrated into gaming contexts. The findings indicate that,
+                            while the used LLM (Qwq) effectively merged numerous inputs into a cohesive
+                            narrative, it exhibited an "early-input bias," preferring initial contributions
+                            and thereby compromising inclusivity in later turns. This resulted in a decrease
+                            of more than 50 percent in the EM score by the fifth turn. Participants
+                            reported moderate engagement and low perceived competence, suggesting deficiencies
+                            in user experience design concerning visibility and feedback. Positively
+                            there was next to no tension and frustrations recorded. Mutual influence while
+                            prompting the LLM to create the narrative received moderate ratings, indi
+                            cating a moderate impact. Additionally, the LLM’s adherence to more than
+                            human perspectives was noted as inconsistent with anthropocentric framing
+                            appearing in a few occasions. However, humor increased enjoyment and was
+                            partially successful combined with critiques of human ecological impact. Over
+                            all, the study is able to contribute to human-AI collaboration in multi-user
+                            contexts, but the LLM instructed as a game agent is not able to fulfill the
+                            task sufficiently all the time. Due to limitations such as small sample sizes
+                            and reliance on prompts to facilitate the agent, the thesis explores more the
+                            feasibility of creating narrations with users remotely providing multiple inputs
+                            in a prompt.
+
             Question: {question}
             Documents: {documents}
             Answer:
@@ -153,10 +194,16 @@ class RAGSystem:
             input_variables=["question", "documents"],
         )
         
-        llm = ChatOllama(
-            model="llama3.1:8b",
-            temperature=0,
+        llm = ChatMistralAI(
+            model="mistral-medium",
+            temperature=0.1,
+            api_key="mVt8sAd7gj5HgfwjIYaNOEhdjdrFBH6W"
         )
+
+        #llm = ChatOllama(
+        #    model="llama3.1:8b",
+        #    temperature=0.1     
+        #)
         
         return prompt | llm | StrOutputParser()
     
@@ -165,14 +212,25 @@ class RAGSystem:
         try:
             documents = self.retriever.invoke(question)
             doc_texts = "\n\n".join([doc.page_content for doc in documents])
+            
+            # Debug logging
+            print("\n=== RETRIEVED DOCUMENTS ===")
+            for i, doc in enumerate(documents, 1):
+                print(f"\nDocument {i}:")
+                print(f"Source: {doc.metadata.get('source', 'unknown')}")
+                print(f"Content: {doc.page_content[:200]}...")  # First 200 chars
+            
+            print("\n=== FULL PROMPT SENT TO LLM ===")
+            print(f"Question: {question}")
+            print(f"Documents: {doc_texts[:500]}...")  # First 500 chars of combined docs
+            
             return self.rag_chain.invoke({
                 "question": question,
-                "documents": doc_texts
+                "documents": doc_texts,
             })
         except Exception as e:
             print(f"Error during query: {str(e)}")
             return "I encountered an error processing your request. Please try again."
-        
 
 #    def test_download(filename):
         url = f"https://christophhein.me/{filename}"

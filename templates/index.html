@@ -6,18 +6,19 @@
     <title>Interactive Research Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
     <!-- Header Section -->
     <header class="portfolio-header">
         <div class="header-content">
             <h1>Master of Sc. Christoph Hein</h1>
-            <p class="subtitle">UX Research & Design | AI Interaction</p>
+            <p class="subtitle">UX Research & Design | AI & LLM Interaction</p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/chhe0032"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/christoph-hein-47b9a5364/"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.twitch.tv/iti_research"><i class="fab fa-twitch"></i></a>
             </div>
         </div>
     </header>
@@ -26,8 +27,9 @@
     <section class="intro-section">
         <div class="container">
             <h2>About My Research</h2>
-            <p>Welcome to my interactive portfolio. I achieved a Master degree in Human Computer Interaction and since a few years I am burning for AI and LLM interactions. How to make them most useful, what areas to explore such as deploying them on live streaming sites to let viewers interact with them, facilitating new opportunities for creative engagments. Therefore I created this site to inform and update and link recent projects and ideas. 
-               Ask the LLM currently supported with RAG about any of my works below, or explore my CV and project highlights.</p>
+            <p>Welcome to my interactive portfolio. I achieved a master degree in Human Computer Interaction and since a few years I am burning for AI and LLM interactions. How to make them most useful, accessible and visible for users.
+               What novel areas to explore, such as deploying them on live streaming sites to let viewers interact with them, facilitating new opportunities for creative engagements. Therefore I created this site to inform and update and link recent projects and ideas. 
+               Ask the LLM currently supported with RAG about my master thesis (due to token limitations its the only available document), or check my CV, and project highlights.</p>
         </div>
     </section>
 
@@ -40,8 +42,7 @@
                     <i class="fas fa-info-circle"></i>
                 </button>
                 <div id="info-popup" class="popup">
-                    <p>This LLM runs on a rented CPU via Ollama (Llama3.1 is the model in usage) and is able to retrieve after a startup time informations from my works. 
-                       It uses Retrieval-Augmented Generation (RAG) to provide accurate responses.</p>
+                    <p>This LLM uses Retrieval-Augmented Generation (RAG) to provide possibly accurate responses. However it is limited to my master thesis due to token constraints. I am working on a better solution to inform about all relevant papers and projects.</p>
                     <button class="close-btn">&times;</button>
                 </div>
             </div>
@@ -51,15 +52,14 @@
             <div class="quick-questions">
                 <h3>Suggested Questions:</h3>
                 <div class="question-grid">
-                    <button class="question-chip" data-question="What works are related or deploy LLM strategies?">LLM Usage</button>
-                    <button class="question-chip" data-question="Tell me more about the most recent project">Recent Project</button>
-                    <button class="question-chip" data-question="Explain to me the Matser thesis which used prompt fusion.">Master Thesis</button>
-                    <button class="question-chip" data-question="What can you tell me about the CV?">CV</button>
+                    <button class="question-chip" data-question="What was the LLM used for in this thesis?">LLM Usage</button>
+                    <button class="question-chip" data-question="Tell me more about the findings.">Findings</button>
+                    <button class="question-chip" data-question="Explain to me the Master thesis!">Master Explanation</button>
                 </div>
             </div>
             
             <div class="input-area">
-                <input type="text" id="user-input" placeholder="Ask about my research...">
+                <input type="text" id="user-input" placeholder="Ask about my thesis...">
                 <button id="send-button" class="primary-btn">
                     <i class="fas fa-paper-plane"></i> Send
                 </button>
@@ -69,35 +69,500 @@
 
     <!-- Portfolio Sections -->
     <section class="portfolio-section">
-        <div class="container">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="cv">Curriculum Vitae</button>
-                <button class="tab-btn" data-tab="publications">Scientific Works</button>
-                <button class="tab-btn" data-tab="projects">Projects</button>
-                <button class="tab-btn" data-tab="contact">Contact</button>
-            </div>
-            
-            <div class="tab-content active" id="cv">
+            <div class="container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="cv">Curriculum Vitae</button>
+                    <button class="tab-btn" data-tab="publications">Scientific Works</button>
+                    <button class="tab-btn" data-tab="projects">Projects</button>
+                    <button class="tab-btn" data-tab="contact">Contact</button>
+                </div>
+                
+                <div class="tab-content active" id="cv">
+            <div class="cv-container">
+                <!-- Professional Experience Timeline -->
                 <h3>Professional Experience</h3>
-                <div class="cv-item">
-                    <h4>Aspires to become a AI researcher focusing on interaction and interfaces between all kinds of species and AI/LLMs</h4>
-                    <p class="meta">Interactive technologies Institute | 2024-Present</p>
-                    <ul>
-                        <li>Worked on identifying </li>
-                        <li>...</li>
-                    </ul>
+                <div class="timeline">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">08/2024 - 04/2025</div>
+                        <div class="timeline-content">
+                            <h4>Interactive Technologies Institute (Portugal)</h4>
+                            <p class="meta">Research Assistant</p>
+                            <ul>
+                                <li>Work towards a scientific article: Prompting Dog-Centered Perspectives:Investigating Anthropocentrism in LLM</li>
+                                <li>Master thesis written in cooperation with ITI under the title LLMs as Narrative Facilitators: Successes and Limitations for Multi-user Prompt Fusion for Creating More-than-Human Narratives</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">10/2023 - 01/2024</div>
+                        <div class="timeline-content">
+                            <h4>Edag Engineering Group AG</h4>
+                            <p class="meta">Working Student - Human Factors</p>
+                            <ul>
+                                <li>Design & concept for FlexiSteer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">2022 - 08/2023</div>
+                        <div class="timeline-content">
+                            <h4>BREDEX GmbH</h4>
+                            <p class="meta">Working Student - UX/UI Department</p>
+                            <ul>
+                                <li>Support conception and design in a project</li>
+                                <li>Preparation & implementation of quarterly workshops</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021 - 12/2021</div>
+                        <div class="timeline-content">
+                            <h4>BREDEX GmbH</h4>
+                            <p class="meta">Mandatory Internship with Bachelor Thesis</p>
+                            <ul>
+                                <li>UXUI department</li>
+                                <li>Bachelor thesis in cooperation with BREDEX: Design and Prototypical Implemantation of an ITR (Interactive Text Response) Chatbot</li>
+                                <li>Customer centricity measures (questionnaire with evaluation matrix based on customer effort scores)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-content">
+                            <h4>Complero GmbH</h4>
+                            <p class="meta">12-week Internship</p>
+                            <ul>
+                                <li>Concept to market launch dashboard for customers</li>
+                                <li>Development & implementation + testing of a conversational user interface as part of the bachelor thesis</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <!-- More CV items -->
-            </div>
-            
-            <div class="tab-content" id="publications">
-                <h3>Selected Publications</h3>
-                <div class="publication-grid">
-                    <!-- Publication items would go here -->
+                
+                <!-- Education Section -->
+                <h3>Education</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">10/2022 - 06/2025</div>
+                        <div class="timeline-content">
+                            <h4>Bauhaus Universität Weimar</h4>
+                            <p class="meta">M.Sc. Human Computer Interaction (taught in english)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">09/2016 - 12/2021</div>
+                        <div class="timeline-content">
+                            <h4>Hochschule Kaiserslautern University of Applied Sciences</h4>
+                            <p class="meta">B.Sc. Digital Media Marketing</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Section -->
+                <h3>Skills</h3>
+                <div class="skills-container">
+                    <div class="skills-category">
+                        <h4>Design Tools</h4>
+                        <ul class="skills-list">
+                            <li>Adobe Creative Cloud</li>
+                            <li>Figma</li>
+                            <li>Balsamiq</li>
+                            <li>Miro</li>
+                            <li>Adobe XD</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skills-category">
+                        <h4>Software & Development</h4>
+                        <ul class="skills-list">
+                            <li>MS Office 365</li>
+                            <li>Sharepoint</li>
+                            <li>Twitch (OBS)</li>
+                            <li>Java Script</li>
+                            <li>HTML</li>
+                            <li>Python</li>
+                            <li>Flask</li>
+                            <li>GitHub</li>
+                            <li>LimeSurvey</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+                    
+        <div class="tab-content" id="publications">
+            <h3>Selected Scientific Works</h3>
+            <div class="publication-grid">
+                <!-- Publication Item 1 -->
+                <div class="publication-card">
+                    <div class="card-header">
+                        <h4>LLMs as Narrative Facilitators: Successes and Limitations for Multi-user Prompt Fusion for Creating More-than-Human Narratives</h4>
+                        <p class="publication-meta">Hein, C. (2025) | Master Thesis</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="card-preview">
+                        <p>This study investigates the integration of LLMs into Audience Participation
+                            Games to mediate collaborative storytelling on Twitch, addressing the lack of
+                            frameworks for equitable multi-user prompting. A mixed-methods approach
+                            is used to evaluate the LLM as a game agent and record the user experience...</p>
+                    </div>
+                    <div class="card-full">
+                        <div class="abstract-full">
+                            <p> This study investigates the integration of LLMs into Audience Participation
+                                Games to mediate collaborative storytelling on Twitch, addressing the lack of
+                                frameworks for equitable multi-user prompting. A mixed-methods approach
+                                is used to evaluate the LLM as a game agent and record the user experience.
+                                This approach combines qualitative interviews, game expereince questionnaire
+                                surveys, and exact match analysis. This process is supposed to provide in
+                                sights that contribute to a better understanding of the user experience when
+                                LLMs/GPTs are integrated into gaming contexts. The findings indicate that,
+                                while the used LLM (Qwq) effectively merged numerous inputs into a cohesive
+                                narrative, it exhibited an "early-input bias," preferring initial contributions
+                                and thereby compromising inclusivity in later turns. This resulted in a decrease of more than 50 percent in the EM score by the fifth turn. Participants
+                                reported moderate engagement and low perceived competence, suggesting deficiencies in user experience design concerning visibility and feedback. Positively
+                                there was next to no tension and frustrations recorded. Mutual influence while
+                                prompting the LLM to create the narrative received moderate ratings, indi
+                                cating a moderate impact. Additionally, the LLM’s adherence to more than
+                                human perspectives was noted as inconsistent with anthropocentric framing
+                                appearing in a few occasions. However, humor increased enjoyment and was
+                                partially successful combined with critiques of human ecological impact. Over
+                                all, the study is able to contribute to human-AI collaboration in multi-user
+                                contexts, but the LLM instructed as a game agent is not able to fulfill the
+                                task sufficiently all the time. Due to limitations such as small sample sizes
+                                and reliance on prompts to facilitate the agent, the thesis explores more the
+                                feasibility of creating narrations with users remotely providing multiple inputs
+                                in a prompt.
+                                </p>
+                        </div>
+                        <div class="publication-details">
+                            <div class="keywords">
+                                <strong>Keywords:</strong>
+                                <span class="keyword-tag">LLM Interaction</span>
+                                <span class="keyword-tag">Prompt Fusion</span>
+                                <span class="keyword-tag">Live Streaming</span>
+                                <span class="keyword-tag">Audience Participation Games</span>
+                            </div>
+                            <a href="https://christophhein.me/Masterthesis.pdf" class="publication-link">
+                                <i class="fas fa-external-link-alt"></i> View Full Thesis
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publication Item 2 -->
+                <div class="publication-card">
+                    <div class="card-header">
+                        <h4>Prompting Dog-Centered Perspectives: Investigating Anthropocentrism in LLMs</h4>
+                        <p class="publication-meta"> Interactive Technologies Institute (2024) | unpublished</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="card-preview">
+                        <p>This study investigates the anthropocentric bias in large language models when prompted to describe canine behavior when reacting or perceiving certain stimuli such as "food" or "friend".
+                            In particular, we compare three different prompt strategies: dog-centred perspective, an anthropocentric-debiased perspective, and a control without any bias...</p>
+                    </div>
+                    <div class="card-full">
+                        <div class="abstract-full">
+                            <p>This study investigates the anthropocentric bias in large language models when prompted to describe canine behavior when reacting or perceiving certain stimuli such as "food" or "friend".
+                                In particular, we compare three different prompt strategies: dog-centred perspective, an anthropocentric-debiased perspective, and a control without any bias. The outputs were evaluated against three baseline
+                                data sources: Video analyses of dog behavior, interviews with dog owners, and interviews with canine behavior experts.
+                                Findings suggest that the default prompt produced the most anthropocentric responses, while the anthropocentric-debiased prompt aligned more closely with expert perspectives. The dog-centric prompt, though aiming for a canine viewpoint, often anthropomorphized dogs through human-like language.
+                            </p>
+                        </div>
+                        <div class="publication-details">
+                            <div class="keywords">
+                                <strong>Keywords:</strong>
+                                <span class="keyword-tag">Anthropocentric Bias</span>
+                                <span class="keyword-tag">More-Than-Human</span>
+                                <span class="keyword-tag">Canine Behavior</span>
+                                <span class="keyword-tag">Prompt Engineering</span>
+                            </div>
+                            <a href="https://christophhein.me/Anthropocentrism.pdf" class="publication-link">
+                                <i class="fas fa-external-link-alt"></i> View Full Paper
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publication Item 3 -->
+                <div class="publication-card">
+                    <div class="card-header">
+                        <h4>Understanding Public Transportation Abroad: A Qualitative Inquiry Using Semi-Structured Interviews</h4>
+                        <p class="publication-meta"> Bauhaus University Weimar (2024) | unpublished</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="card-preview">
+                        <p>In addressing urban mobility challenges, mitigating environmental 
+                            impacts, and participating in daily life activities, public transport 
+                            (PT) systems play a critical role. This qualitative study examines 
+                            the key factors influencing PT experiences abroad and explores 
+                            potential implications for improving PT in Germany...</p>
+                    </div>
+                    <div class="card-full">
+                        <div class="abstract-full">
+                            <p>In addressing urban mobility challenges, mitigating environmental 
+                                impacts, and participating in daily life activities, public transport 
+                                (PT) systems play a critical role. This qualitative study examines 
+                                the key factors influencing PT experiences abroad and explores 
+                                potential implications for improving PT in Germany. Through 
+                                semi-structured interviews with PT users who have lived or spent 
+                                time abroad, the study examines various aspects of PT use, 
+                                including accessibility, reliability, ticketing, control, and their 
+                                commuting experiences. Findings reveal common themes such as 
+                                the importance of flexible fare structures and reliable information 
+                                dissemination to enable seamless travel. Participants emphasize the 
+                                need for user-centered approaches and innovative solutions to 
+                                improve the usability and effectiveness of public transport. 
+                                Recommendations include the adoption of contactless payment 
+                                methods, the introduction of express services, and the expansion of 
+                                PT coverage in underserved areas with alternative PT modes. 
+                                Further research is recommended to explore additional or more 
+                                specific modal shift strategies and user experiences with alternative 
+                                PT to evaluate their impact on PT use and environmental 
+                                sustainability. 
+                            </p>
+                        </div>
+                        <div class="publication-details">
+                            <div class="keywords">
+                                <strong>Keywords:</strong>
+                                <span class="keyword-tag">Public transport</span>
+                                <span class="keyword-tag">Interviews</span>
+                                <span class="keyword-tag">Improvements</span>
+                            </div>
+                            <a href="https://christophhein.me/Transport_Interviews.pdf" class="publication-link">
+                                <i class="fas fa-external-link-alt"></i> View Full Paper
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publication Item 4 -->
+                <div class="publication-card">
+                    <div class="card-header">
+                        <h4>User-Centered Design Approaches of a Color-Based Communication System for Emotional Support of Employees as a Ubiquitous Computing Solution</h4>
+                        <p class="publication-meta"> Bauhaus University Weimar (2023) | unpublished</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="card-preview">
+                        <p>This paper focuses on a possible ubiquitous
+                            computing solution that provides for:
+                            transporting emotions among employees
+                            through the transmission of colors in order to motivate and support each other. The efforts explained in the paper are
+                            based on already researched and user
+                            tested proposals to extend the communication of individuals with colors...</p>
+                    </div>
+                    <div class="card-full">
+                        <div class="abstract-full">
+                            <p> This paper focuses on a possible ubiquitous
+                                computing solution that provides for:
+                                transporting emotions among employees
+                                through the transmission of colors in order to motivate and support each other. The efforts explained in the paper are
+                                based on already researched and user
+                                tested proposals to extend the communication of individuals with colors. With this knowledge, user-centered design
+                                is explained and used in a theoretical
+                                approach to identify the strengths
+                                and weaknesses of the application.
+                                The overall goal of this paper is to come to a 
+                                conclusion on the desirability of
+                                implementation by exploring UCD methods
+                                and a theoretical application in the
+                                described home office scenario.
+                            </p>
+                        </div>
+                        <div class="publication-details">
+                            <div class="keywords">
+                                <strong>Keywords:</strong>
+                                <span class="keyword-tag">Ubiquitous Computing</span>
+                                <span class="keyword-tag">User-Centered-Design</span>
+                                <span class="keyword-tag">Communication with Color</span>
+                            </div>
+                            <a href="https://christophhein.me/UCD_Ubicomp.pdf" class="publication-link">
+                                <i class="fas fa-external-link-alt"></i> View Full Paper
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+        <!-- Project contents -->
+        <div class="tab-content" id="projects">
+            <h3>Projects</h3>
+            <div class="project-container">
+                <!-- Project Item 1 with Image -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4>Exploring the Realism of AI-Generated Onomatopoeia: An Interactive Demo</h4>
+                        <p class="project-meta">AI Project | 2024</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="{{ url_for('static', filename='images/onomatopoeia.jpg') }}" alt="Onomatopoeia guessing Interface">
+                        </div>
+                        <p>The project investigates the ability of GEN, specifically text-to-speech (TTS) systems, to produce natural-sounding onomatopoeia, and evaluates the human ability to distinguish these from real human-made sounds.</p>
+                    </div>
+                    <div class="project-full">
+                        <div class="project-content">
+                            <div class="project-image-full">
+                                <img src="{{ url_for('static', filename='images/onomatopoeia.jpg') }}" alt="Onomatopoeia guessing Interface">
+                            </div>
+                            <div class="project-details">
+                                <p>This paper explores the comparison of human and AI-generated onomatopoeia within an interactive demo exhibited at 'summaery' 2024 at Bauhaus university Weimar. The project investigates the ability of deep learning models,
+                                    specifically text-to-speech (TTS) systems, to produce natural-sounding onomatopoeia, and evaluates the human ability to distinguish these from real human-made sounds. Using open-source datasets and models such as AudioLDM2 and ElevenLabs' monolingual model,
+                                    the demo involved participants listening to and voting on various sounds categorised as farm animals, instruments and domestic noises. The results show a significant challenge for participants in accurately identifying AI-generated sounds,
+                                    with a near 50/50 split between correct and incorrect votes, highlighting both the advances in AI audio generation and the limitations of human recognition capabilities.</p>
+                                <div class="project-features">
+                                    <h5>Key Words:</h5>
+                                    <ul>
+                                        <li>Interactive Demo</li>
+                                        <li>Measurements of Performance</li>
+                                        <li>Generation of Onomatopoeia</li>
+                                        <li>Voice Cloning</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/chhe0032/Fake" class="project-link"><i class="fab fa-github"></i> View Code</a>
+                                    <a href="https://christophhein.me/Fake.pdf" class="project-link"><i class="fas fa-external-link-alt"></i>View Full Text</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Item 2 without Image -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4>Air-Balanced Bites</h4>
+                        <p class="project-meta">Research Project | 2023</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="project-preview">
+                        <p>This project examines the need for the
+                            physicalization of abstract data using inflatables in order to make it more accessible and
+                            palpable. Our project aims to allow users to build their usual meal and see how it meets the
+                            proposed standards.</p>
+                    </div>
+                    <div class="project-full">
+                        <div class="project-details">
+                            <p> In our data-driven society, data representation is a crucial problem that affects
+                                decision-making in many different sectors. This project examines the need for the
+                                physicalization of abstract data using inflatables in order to make it more accessible and
+                                palpable. Our project aims to allow users to build their usual meal and see how it meets the
+                                proposed standards. Also, the user is given the opportunity to change their choice in the
+                                process by removing or adding certain products, which helps them think about possible
+                                changes in their diet and makes their further choice more conscious.
+                                In our case, inflatables act as a pneumatic system that pushes out the table legs at
+                                indicators above or below the norm, which makes it possible to clearly see the result of their
+                                choices. The table's four inflated components, which correlate to important nutritional
+                                indicators and dynamically display meal balance, provide a useful and memorable way to
+                                comprehend dietary choices.
+                                The study describes the theoretical underpinnings, driving forces, and design methodology
+                                of "Air-Balanced Bites," an interactive dining table that physically depicts the nutritional
+                                balance of meals in real time. In this TEAM-project my tasks and contributions were mostly about ideation,
+                                prototyping and building of the final version, while my team mates were more concerned with programming and the design</p>
+                            <div class="project-features">
+                                <h5>Key Words:</h5>
+                                <ul>
+                                    <li>Interactive Data Visualization</li>
+                                    <li>Inflatables</li>
+                                    <li>Adulino</li>
+                                    <li>Balanced Meal Preparation</li>
+                                </ul>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://christophhein.me/Airbalanced_bite.pdf" class="project-link"><i class="fas fa-external-link-alt"></i>View Full Text</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             
-            <!-- Other tab contents -->
+            
+                <!-- Project Item 3 with Image -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4>Vergleich zweier Signalformen bei einem take-over request (TOR) im Kontext autonomen Fahrens</h4>
+                        <p class="project-meta">Research Project | 2019</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="{{ url_for('static', filename='images/Fahrsim.png') }}" alt="Onomatopoeia guessing Interface">
+                        </div>
+                        <p>The vibration signal and the acoustic signal for the “Take over Request”
+                            are examined by evaluating reaction times and the deviation from the route traveled. In addition,
+                            a preference of the test person is determined with a subsequent questionnaire.</p>
+                    </div>
+                    <div class="project-full">
+                        <div class="project-content">
+                            <div class="project-image-full">
+                                <img src="{{ url_for('static', filename='images/Fahrsim.png') }}" alt="Onomatopoeia guessing Interface">
+                            </div>
+                            <div class="project-details">
+                                <p>Autonomous driving and the vision of a safe, efficient and convenient
+                                    mobility concept still have a few hurdles to overcome, but are steadily making their way
+                                    into our everyday lives (Sokolov, 2015). As reported by Der Spiegel, the behavior and functionality of autonomous vehicles in
+                                    city traffic is already being tested on a
+                                    test track in Hamburg (cfr, 2019).
+                                    Semi-autonomous systems (Advanced Driver Assistance Systems) such as
+                                    lane departure warning systems in cars and trucks are just one example of the advanced technology in the
+                                    mobility sector. Over the last 40 years, systems such as anti-lock braking
+                                    system (ABS), electronic stability program (ESP) and adaptive cruise control (ACC) have become established,
+                                    which initially support the driver in the longitudinal and increasingly also in the lateral guidance of the
+                                    vehicle (Beiker, 2015, p. 200; Johanning, Mildner, 2015, p. 61).
+                                    The underlying scenario of autonomous level four is that the driver remains capable of driving at all times
+                                    and takes control of the vehicle
+                                    in the event of an unexpected situation. For this reason, the following question is investigated in this thesis in a
+                                    study using a driving simulator: Which signal enables a safe and
+                                    reliable transfer of control of the vehicle, even if the driver is no longer in the “loop” due to another
+                                    activity? This means that the driver is no longer actively participating in the
+                                    driving process.
+                                    The vibration signal and the acoustic signal for the “take over request”
+                                    are examined on the basis of an evaluation of reaction times and the deviation from the
+                                    route traveled. In addition, a preference of the test person is determined with a subsequent questionnaire.
+                                    Finally, the results are presented and a recommendation for future
+                                    studies is made.</p>
+                                <div class="project-features">
+                                    <h5>Key Words:</h5>
+                                    <ul>
+                                        <li>Autonomous Driving</li>
+                                        <li>User Study</li>
+                                        <li>Take over Request</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://christophhein.me/Fahrsim.pdf" class="project-link"><i class="fas fa-external-link-alt"></i> Full Text (in German)</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="contact">
+        <h3>Get In Touch</h3>
+        <div class="contact-container">
+            <!-- Professional Contact Card -->
+            <div class="contact-card">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h4>Email Inquiry</h4>
+                <p>For research collaborations or professional opportunities</p>
+                <a href="mailto:research_christophhein@proton.me" class="contact-btn">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </a>
+            </div>
         </div>
     </section>
 

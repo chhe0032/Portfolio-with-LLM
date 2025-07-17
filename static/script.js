@@ -133,3 +133,28 @@ userInput.addEventListener("keypress", (e) => {
 });
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle both publication and project cards
+    const toggleCards = (containerClass, cardClass) => {
+        const cards = document.querySelectorAll(`${containerClass} ${cardClass}`);
+        
+        cards.forEach(card => {
+            const header = card.querySelector('.card-header, .project-header');
+            
+            header.addEventListener('click', () => {
+                // Close all other open cards in this container
+                document.querySelectorAll(`${containerClass} ${cardClass}.active`).forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current card
+                card.classList.toggle('active');
+            });
+        });
+    };
+
+    toggleCards('.publication-grid', '.publication-card');
+    toggleCards('.project-container', '.project-card');
+});
