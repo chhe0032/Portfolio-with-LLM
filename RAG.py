@@ -4,9 +4,8 @@ from langchain_community.vectorstores import SKLearnVectorStore
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_mistralai import ChatMistralAI
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_mistralai import MistralAIEmbeddings
 from langchain.storage import LocalFileStore
-from langchain.embeddings import CacheBackedEmbeddings
 import requests
 import io
 import os
@@ -35,22 +34,11 @@ class RAGSystem:
         self._initialize_embedding_cache()
     
     def _initialize_embedding_cache(self):
-        """Initialize the embedding cache system"""
-        # Create cache directory if it doesn't exist
-        os.makedirs("./embedding_cache", exist_ok=True)
-        
-        # Set up the cache store and embedder
-        store = LocalFileStore("./embedding_cache")
-        base_embedding = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            model_kwargs={'device': 'cpu'},
-            encode_kwargs={'normalize_embeddings': True}
-        )
-        self.embedding = CacheBackedEmbeddings.from_bytes_store(
-            base_embedding,
-            store,
-            namespace="miniLM"  # Unique namespace for this model
-        )
+    """Initialize Mistral API-based embeddings"""
+    self.embedding = MistralAIEmbeddings(
+        model="mistral-embed",
+        api_key=os.getenv("MISTRAL_API_KEY")
+    )
 
     def _download_from_r2(self, file_key):
         """Download file via your custom domain"""
@@ -98,8 +86,8 @@ class RAGSystem:
         """Load documents with proper file handling"""
         documents = []
         file_config = [
-            #("Masterthesis.pdf", PyPDFLoader),
-            ("Fake.pdf", PyPDFLoader),
+            ("Masterthesis.pdf", PyPDFLoader),
+            #("Fake.pdf", PyPDFLoader),
             #("Anthropocentrism.pdf", PyPDFLoader),
             #("SEAdv_Report.pdf", PyPDFLoader),
             #("Airbalanced_bite.pdf", PyPDFLoader),
@@ -157,12 +145,10 @@ class RAGSystem:
         return text_splitter.split_documents(documents)
     
     def _create_retriever(self, documents):
-        """Create vector store and retriever using cached embeddings"""
-        vectorstore = SKLearnVectorStore.from_documents(
+        return SKLearnVectorStore.from_documents(
             documents=documents,
-            embedding=self.embedding  # Using the cached embedder
-        )
-        return vectorstore.as_retriever(k=4)
+            embedding=self.embedding  # Use Mistral's API
+        ).as_retriever(k=4)
     
     def _create_rag_chain(self):
         """Create the RAG processing chain"""
