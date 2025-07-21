@@ -10,7 +10,7 @@ const BACKEND_URL = "";
 
 // Initialize with welcome message
 window.addEventListener("DOMContentLoaded", () => {
-    addMessage("AI", "Hello! I'm an AI assistant able access and explain Christoph's research. Ask me anything about his papers, methods, or whta ever you like to know.");
+    addMessage("AI", "Hello! I'm an AI assistant able access and explain Christoph's research. Ask me anything about his projects, methods, or what ever you like to know.");
 });
 
 // Improved message function with typing indicator
