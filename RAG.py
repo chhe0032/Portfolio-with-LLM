@@ -26,7 +26,7 @@ class RAGSystem:
         self.rag_chain = None
         self.embedding = None  # Will hold our cached embedder
 
-        self.R2_CUSTOM_DOMAIN = "christophhein.me"
+        self.R2_CUSTOM_DOMAIN = "bucket.christophhein.me"
         self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
         os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
 
