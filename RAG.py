@@ -98,8 +98,8 @@ class RAGSystem:
         """Load documents with proper file handling"""
         documents = []
         file_config = [
-            ("Masterthesis.pdf", PyPDFLoader),
-            #("Fake.pdf", pyPDFLoader),
+            #("Masterthesis.pdf", PyPDFLoader),
+            ("Fake.pdf", pyPDFLoader),
             #("Anthropocentrism.pdf", PyPDFLoader),
             #("SEAdv_Report.pdf", PyPDFLoader),
             #("Airbalanced_bite.pdf", PyPDFLoader),
