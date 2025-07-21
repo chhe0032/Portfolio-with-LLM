@@ -29,8 +29,8 @@ class RAGSystem:
         self.embedding = None  # Will hold our cached embedder
 
         self.R2_CUSTOM_DOMAIN = "christophhein.me"
-        self.R2_API_TOKEN = "LTTh-bL8Prva18NnCipVQp68MpBnh3PjCu3dhE5T" #os.getenv("R2_API_TOKEN")
-        os.environ["MISTRAL_API_KEY"] = "VlFcvTGIkpPF93AcDA4zIURI3t7jkutR" #os.getenv("MISTRAL_API_KEY")
+        self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
+        os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
 
         # Initialize embedding cache
         self._initialize_embedding_cache()
@@ -43,7 +43,7 @@ class RAGSystem:
         # Set up the cache store and embedder
         store = LocalFileStore("./embedding_cache")
         base_embedding = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            model_name="optimum/all-MiniLM-L6-v2",
             model_kwargs={'device': 'cpu'},
             encode_kwargs={'normalize_embeddings': True}
         )
