@@ -6,6 +6,8 @@ from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_mistralai import ChatMistralAI
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain.storage import LocalFileStore
+from langchain.embeddings import CacheBackedEmbeddings
 import requests
 import io
 import os
@@ -13,11 +15,9 @@ import tempfile
 from urllib.parse import quote
 from dotenv import load_dotenv
 
-# Configuration - UPDATE THESE!
-BUCKET_NAME = "files"  # Just the name, no .r2.dev
+# Configuration
+BUCKET_NAME = "files"
 ACCOUNT_ID = "a647af0b197a174668773e5c87e93c8b"
-                   # If files are in subfolder (or "" if in root)
-
 
 class RAGSystem:
     def __init__(self):
@@ -26,12 +26,32 @@ class RAGSystem:
         os.environ['USER_AGENT'] = 'MyRAGApplication/1.0'
         self.retriever = None
         self.rag_chain = None
+        self.embedding = None  # Will hold our cached embedder
 
-        self.R2_CUSTOM_DOMAIN = "christophhein.me" # Your custom domain for R2
-        self.R2_API_TOKEN = os.getenv("R2_API_TOKEN")
-        os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
-       
+        self.R2_CUSTOM_DOMAIN = "christophhein.me"
+        self.R2_API_TOKEN = "LTTh-bL8Prva18NnCipVQp68MpBnh3PjCu3dhE5T" #os.getenv("R2_API_TOKEN")
+        os.environ["MISTRAL_API_KEY"] = "VlFcvTGIkpPF93AcDA4zIURI3t7jkutR" #os.getenv("MISTRAL_API_KEY")
+
+        # Initialize embedding cache
+        self._initialize_embedding_cache()
     
+    def _initialize_embedding_cache(self):
+        """Initialize the embedding cache system"""
+        # Create cache directory if it doesn't exist
+        os.makedirs("./embedding_cache", exist_ok=True)
+        
+        # Set up the cache store and embedder
+        store = LocalFileStore("./embedding_cache")
+        base_embedding = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            model_kwargs={'device': 'cpu'},
+            encode_kwargs={'normalize_embeddings': True}
+        )
+        self.embedding = CacheBackedEmbeddings.from_bytes_store(
+            base_embedding,
+            store,
+            namespace="miniLM"  # Unique namespace for this model
+        )
 
     def _download_from_r2(self, file_key):
         """Download file via your custom domain"""
@@ -47,13 +67,11 @@ class RAGSystem:
         
         print(f"🔑 Using R2 token starting with: {self.R2_API_TOKEN[:6]}...")
        
-        
-        
         try:
             response = requests.get(url, headers=headers, timeout=10)
             print(f"HTTP Status: {response.status_code}")
 
-                # Create temporary file
+            # Create temporary file
             suffix = os.path.splitext(file_key)[1]
             with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp_file:
                 tmp_file.write(response.content)
@@ -139,17 +157,12 @@ class RAGSystem:
         )
         return text_splitter.split_documents(documents)
     
-    #def _create_retriever(self, documents):
-    #    """Create vector store and retriever"""
-    #    vectorstore = SKLearnVectorStore.from_documents(
-    #        documents=documents,
-    #        embedding=OllamaEmbeddings(model="llama3.1:8b"),
-    #    )
-    #   return vectorstore.as_retriever(k=20)
-    
     def _create_retriever(self, documents):
-        embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        vectorstore = SKLearnVectorStore.from_documents(documents=documents, embedding=embedding)
+        """Create vector store and retriever using cached embeddings"""
+        vectorstore = SKLearnVectorStore.from_documents(
+            documents=documents,
+            embedding=self.embedding  # Using the cached embedder
+        )
         return vectorstore.as_retriever(k=4)
     
     def _create_rag_chain(self):
@@ -177,7 +190,7 @@ class RAGSystem:
                             in user experience design concerning visibility and feedback. Positively
                             there was next to no tension and frustrations recorded. Mutual influence while
                             prompting the LLM to create the narrative received moderate ratings, indi
-                            cating a moderate impact. Additionally, the LLM’s adherence to more than
+                            cating a moderate impact. Additionally, the LLM's adherence to more than
                             human perspectives was noted as inconsistent with anthropocentric framing
                             appearing in a few occasions. However, humor increased enjoyment and was
                             partially successful combined with critiques of human ecological impact. Over
@@ -199,11 +212,6 @@ class RAGSystem:
             model="mistral-medium",
             temperature=0.1
         )
-
-        #llm = ChatOllama(
-        #    model="llama3.1:8b",
-        #    temperature=0.1     
-        #)
         
         return prompt | llm | StrOutputParser()
     
