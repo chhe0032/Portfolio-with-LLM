@@ -16,7 +16,6 @@ scikit-learn>=1.3.0  # For SKLearnVectorStore
 
 # LLM Providers
 langchain-mistralai>=0.1.0  # If using Mistral API
-langchain-ollama>=0.1.0     # If using local Ollama (optional)
 
 # Web Server (only if needed)
 flask>=2.0.0
