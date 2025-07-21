@@ -87,12 +87,12 @@ class RAGSystem:
         documents = []
         file_config = [
             ("Masterthesis.pdf", PyPDFLoader),
-            #("Fake.pdf", PyPDFLoader),
-            #("Anthropocentrism.pdf", PyPDFLoader),
-            #("SEAdv_Report.pdf", PyPDFLoader),
-            #("Airbalanced_bite.pdf", PyPDFLoader),
-            #("Transport_Interviews.pdf", PyPDFLoader),
-            #("UCD_Ubicomp.pdf", PyPDFLoader)
+            ("Fake.pdf", PyPDFLoader),
+            ("Anthropocentrism.pdf", PyPDFLoader),
+            ("SEAdv_Report.pdf", PyPDFLoader),
+            ("Airbalanced_bite.pdf", PyPDFLoader),
+            ("Transport_Interviews.pdf", PyPDFLoader),
+            ("UCD_Ubicomp.pdf", PyPDFLoader)
         ]
         
         for filename, loader_cls in file_config:
@@ -148,7 +148,7 @@ class RAGSystem:
         return SKLearnVectorStore.from_documents(
             documents=documents,
             embedding=self.embedding  # Use Mistral's API
-        ).as_retriever(k=4)
+        ).as_retriever(k=7)
     
     def _create_rag_chain(self):
         """Create the RAG processing chain"""
