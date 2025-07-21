@@ -29,7 +29,7 @@
             <h2>About Me & My Research</h2>
             <p>Welcome to my interactive portfolio. I am looking for opportunities to design and influence future interactions with AI and LLMs. I achieved a master degree in Human Computer Interaction in 2025. For the past few years, I've been absolutely captivated by the world of AI and LLM interactions. How make them as useful, accessible, and visible as possible for users! 
                What novel areas to explore, such as deploying them on live streaming sites to let viewers interact with them, facilitating new opportunities for creative engagements. Therefore I created this site to showcase and update and link recent projects and ideas. 
-               Ask the LLM currently supported with RAG about my master thesis (due to token limitations its the only available document), or check my CV, and project highlights.</p>
+               Ask the LLM currently supported with RAG about my projects and scientifc work or check my CV and other information.</p>
         </div>
     </section>
 
@@ -42,7 +42,7 @@
                     <i class="fas fa-info-circle"></i>
                 </button>
                 <div id="info-popup" class="popup">
-                    <p>This LLM uses Retrieval-Augmented Generation (RAG) to provide possibly accurate responses. However it is limited to the Master Thesis due to token constraints. I am working on a better solution to inform about all relevant papers and projects.</p>
+                    <p>This LLM uses Retrieval-Augmented Generation (RAG) to provide possibly accurate responses. I am still working on a better solution to inform about all relevant papers and projects and myself therefore some answers might be inaccurate or missing.</p>
                     <button class="close-btn">&times;</button>
                 </div>
             </div>
@@ -417,6 +417,26 @@
         <div class="tab-content active" id="projects">
             <h3>Projects</h3>
             <div class="project-container">
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4>Coming Soon: More LLM studies on Twitch</h4>
+                        <p class="project-meta">AI Project | N/A</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="project-preview">
+                        <p>In the future I will conduct more studies on Twitch with LLMs, to explore how they can be used to facilitate more-than-human narratives and other creative engagements.</p>
+                    </div>
+                    <div class="project-full">
+                        <div class="project-details">
+                            <p>Stay tuned for updates on upcoming studies and projects involving LLMs on Twitch. These studies will aim to explore the potential of LLMs in enhancing user engagement and creating innovative interactive experiences. Further I want to explore how viewers can argue with a LLM to convince it pressing a symbolic button.
+                                In an other future project I will target developing a gaming experience in which a GEN is used to create live new contents such as bosses in a video game based on the viewers input. This will allow for a dynamic and engaging gaming experience where the LLM adapts to the players' actions and decisions in real-time.
+                            </p>
+                            <p>Stay Tuned for more information and updates on these exciting projects!</p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <!-- Project Item 1 with Image -->
                 <div class="project-card">
                     <div class="project-header">
@@ -458,7 +478,70 @@
                     </div>
                 </div>
 
-                <!-- Project Item 2 without Image -->
+                <!-- Project Item 2 with Image -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4>Social Engineering - The Adventure!</h4>
+                        <p class="project-meta">AI/Social Engineering Project | 2023/24</p>
+                        <div class="expand-btn"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="{{ url_for('static', filename='images/seaadv.jpg') }}" alt="Interface of the game showing a scene in an office with multiple choices">
+                        </div>
+                        <p>This semester project was accomplished in a diverse team with backgrounds in different disciplines. My contributions are mostly about level and interaction design, creative writing and storytelling, as well in the written parts. The report is a summary of the project "Social Engineering - The Adventure"
+                            that was driven by seven Bachelor and Master students as well as three supervisors. Over the course of a semester, the team was dedicated to exploring the
+                            techniques of social engineering while developing the prototype of a game in the
+                            end.
+                            </p>
+                    </div>
+                    <div class="project-full">
+                        <div class="project-content">
+                            <div class="project-image-full">
+                                <img src="{{ url_for('static', filename='images/seaadv.jpg') }}" alt="Interface of the game showing a scene in an office with multiple choices">
+                            </div>
+                            <div class="project-details">
+                                <p>This report is a summary of the project "Social Engineering - The Adventure"
+                                    that was driven by seven Bachelor and Master students as well as three supervisors. Over the course of a semester, the team was dedicated to exploring the
+                                    techniques of social engineering while developing the prototype of a game in the
+                                    end.
+                                    The goal of the game is to educate the average internet user on the dangers
+                                    of social engineering and the techniques used by attackers to access someone’s
+                                    personal data. The game is designed such that the player takes on the role of
+                                    the attacker, slowly uncovering a political scandal. The player is asked to gather
+                                    information on parties involved such as companies and politicians. The story
+                                    progresses until the scandal is revealed.
+                                    By providing a choice for different actions, players learn more about different
+                                    social engineering techniques, making them more aware of its dangers and possibly spread awareness by sharing this knowledge with their social environment.
+                                    This can be seen as an additional goal, extending and supporting employee
+                                    education in the public and private sector on privacy and security measures,
+                                    possibly outperforming other mediums such as educational videos.
+                                    For the prototype, the story, graphics and programming mini-games were implemented to make the game both educational and fun. At the current state, the
+                                    story is developed until level 4. The game engine used for development is Ren’Py,
+                                    and the code can be found on GitHub.
+                                    The game is mainly story based with the player being able to choose actions
+                                    to take next. Some of those options will definitely lead to the access of information, some won’t and could perhaps lead to the player getting caught. This
+                                    means that the game creates a tree of choices for the player to make with some
+                                    branches leading to a positive and some to a negative outcome.
+                                    </p>
+                                <div class="project-features">
+                                    <h5>Key Words:</h5>
+                                    <ul>
+                                        <li>Game Development</li>
+                                        <li>Social Engineering</li>
+                                        <li>Group Project</li>
+                                        <li>Level Design</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://bucket.christophhein.me/SEAdv_Report.pdf" class="project-link"><i class="fas fa-external-link-alt"></i>View Full Text</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Item 1 without Image -->
                 <div class="project-card">
                     <div class="project-header">
                         <h4>Air-Balanced Bites</h4>
