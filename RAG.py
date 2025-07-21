@@ -34,11 +34,11 @@ class RAGSystem:
         self._initialize_embedding_cache()
     
     def _initialize_embedding_cache(self):
-    """Initialize Mistral API-based embeddings"""
-    self.embedding = MistralAIEmbeddings(
-        model="mistral-embed",
-        api_key=os.getenv("MISTRAL_API_KEY")
-    )
+        """Initialize Mistral API-based embeddings"""
+        self.embedding = MistralAIEmbeddings(
+            model="mistral-embed",
+            api_key=os.getenv("MISTRAL_API_KEY")
+        )
 
     def _download_from_r2(self, file_key):
         """Download file via your custom domain"""
