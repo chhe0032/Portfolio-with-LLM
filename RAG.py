@@ -99,7 +99,7 @@ class RAGSystem:
         documents = []
         file_config = [
             #("Masterthesis.pdf", PyPDFLoader),
-            ("Fake.pdf", pyPDFLoader),
+            ("Fake.pdf", PyPDFLoader),
             #("Anthropocentrism.pdf", PyPDFLoader),
             #("SEAdv_Report.pdf", PyPDFLoader),
             #("Airbalanced_bite.pdf", PyPDFLoader),
