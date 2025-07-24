@@ -92,8 +92,8 @@ class RAGSystem:
             ("SEAdv_Report.pdf", PyPDFLoader),
             ("Airbalanced_bite.pdf", PyPDFLoader),
             ("Transport_Interviews.pdf", PyPDFLoader),
-            ("UCD_Ubicomp.pdf", PyPDFLoader)
-            ("CV.pdf", PyPDFLoader),
+            ("UCD_Ubicomp.pdf", PyPDFLoader),
+            ("CV.pdf", PyPDFLoader)
         ]
         
         for filename, loader_cls in file_config:
