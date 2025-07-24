@@ -93,6 +93,7 @@ class RAGSystem:
             ("Airbalanced_bite.pdf", PyPDFLoader),
             ("Transport_Interviews.pdf", PyPDFLoader),
             ("UCD_Ubicomp.pdf", PyPDFLoader)
+            ("CV.pdf", PyPDFLoader),
         ]
         
         for filename, loader_cls in file_config:
@@ -148,7 +149,7 @@ class RAGSystem:
         return SKLearnVectorStore.from_documents(
             documents=documents,
             embedding=self.embedding  # Use Mistral's API
-        ).as_retriever(k=7)
+        ).as_retriever(k=8)
     
     def _create_rag_chain(self):
         """Create the RAG processing chain"""
@@ -158,7 +159,7 @@ class RAGSystem:
             If you don't know the answer, just say that you don't know.
             Use a few sentences maximum and keep the answer concise but don't leave out important information:
 
-            Abstract from the document:
+            Abstract from the Master thesis:
             This study investigates the integration of LLMs into Audience Participation
                             Games to mediate collaborative storytelling on Twitch, addressing the lack of
                             frameworks for equitable multi-user prompting. A mixed-methods approach
